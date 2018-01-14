@@ -138,4 +138,6 @@ void main(){
 
     printf("\nList \n\n");
     display();
+    
+    
 }
