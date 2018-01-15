@@ -136,7 +136,5 @@ void main(){
         delete(3);
 
     printf("\nList \n\n");
-    display();
-    
-    
+    display();   
 }
