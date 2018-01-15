@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
 #define MAX 4
 
 int array[MAX], size = 0, current = 0;
