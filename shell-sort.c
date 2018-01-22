@@ -1,7 +1,7 @@
 #include <stdio.h>
-#define MAX 11
+#define MAX 7
 
-int a[11] = {10,9,8,7,6,5,4,3,2,1,0};
+int a[MAX] = {10,9,8,7,6,5,4};
 
 void sort(){
     int valueToInsert, inner,outer, interval = 1, elements = MAX;
@@ -18,7 +18,7 @@ void sort(){
             valueToInsert = a[outer];
             inner = outer;
 
-            while( inner >= (interval - 1) && a[inner - interval] > valueToInsert)
+            while( inner > (interval - 1) && a[inner - interval] > valueToInsert)
             {
                 a[inner] = a[inner - interval];
                 inner -= interval;
