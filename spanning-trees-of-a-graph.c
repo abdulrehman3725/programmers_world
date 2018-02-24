@@ -3,6 +3,8 @@ This concept is combined effort of following tutorials
 https://www.tutorialspoint.com/data_structures_algorithms/spanning_tree.htm 
                             &
 http://www.martinbroadhurst.com/spanning-trees-of-a-graph-in-c.html
+
+KEEP IN MIND THAT THIS CODE IS MORE ENHANCED THAN ABOVE LINK CODES BUT 99% CODE IS SIMILAR
 */
 
 #include <stdio.h>
@@ -44,7 +46,8 @@ void spanning_trees(edge *edges, int v, int n, treefn fun)
 {
     edge *tree;
 
-    tree = malloc((n-1) * sizeof(edge));
+    //the size of spanning tree edges would be 1 less than the vertices
+    tree = malloc((v-1) * sizeof(edge));
     if(tree == NULL)
         return;
 
