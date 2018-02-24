@@ -92,6 +92,7 @@ int main(){
 
     //no of vertices
     int v = 5;
+    //no of edges for a complete graph
     int n = triangular_number(v - 1);
 
     edge *edges;
