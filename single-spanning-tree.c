@@ -1,3 +1,8 @@
+/*
+THe concept is here -> http://www.martinbroadhurst.com/spanning-tree-of-a-graph-in-c.html
+This code is modified and improved form of the above link.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
