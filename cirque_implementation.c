@@ -1,3 +1,7 @@
+/*
+http://www.martinbroadhurst.com/cirque-in-c.html
+*/
+
 #include <stdlib.h>
 #include <D:\wamp\www\Concepts\Datastructure\cirque.h>
  

@@ -110,57 +110,57 @@ void printComponents(int *components, int v)
     }
 }
 
-int main()
-{
-    int *components;
-    edge *edges;
-    //no of vertices
-    unsigned const int v = 9;
-    //no of edges
-    unsigned const int e = v - 1;
+// int main()
+// {
+//     int *components;
+//     edge *edges;
+//     //no of vertices
+//     unsigned const int v = 9;
+//     //no of edges
+//     unsigned const int e = v - 1;
 
-    edges = malloc(e * sizeof(edge));
+//     edges = malloc(e * sizeof(edge));
 
-    if (edges == NULL)
-        return 1;
+//     if (edges == NULL)
+//         return 1;
 
-    //Square component
-    edges[0].first = 0;
-    edges[0].second = 1;
-    edges[1].first = 1;
-    edges[1].second = 2;
-    edges[2].first = 2;
-    edges[2].second = 3;
-    edges[3].first = 3;
-    edges[3].second = 0;
+//     //Square component
+//     edges[0].first = 0;
+//     edges[0].second = 1;
+//     edges[1].first = 1;
+//     edges[1].second = 2;
+//     edges[2].first = 2;
+//     edges[2].second = 3;
+//     edges[3].first = 3;
+//     edges[3].second = 0;
 
-    //Triangle component
-    edges[4].first = 4;
-    edges[4].second = 5;
-    edges[5].first = 5;
-    edges[5].second = 6;
-    edges[6].first = 6;
-    edges[6].second = 4;
+//     //Triangle component
+//     edges[4].first = 4;
+//     edges[4].second = 5;
+//     edges[5].first = 5;
+//     edges[5].second = 6;
+//     edges[6].first = 6;
+//     edges[6].second = 4;
 
-    //Line component
-    edges[7].first = 7;
-    edges[7].second = 8;
-    edges[8].first = 8;
-    edges[8].second = 7;
+//     //Line component
+//     edges[7].first = 7;
+//     edges[7].second = 8;
+//     edges[8].first = 8;
+//     edges[8].second = 7;
 
-    int c = connected_components(edges, e, v, &components);
+//     int c = connected_components(edges, e, v, &components);
 
-    if (components == NULL) 
-    {
-        free(edges);
-        return 1;
-    }
+//     if (components == NULL) 
+//     {
+//         free(edges);
+//         return 1;
+//     }
 
-    printf("There are %d components \n", c);
-    printComponents(components, v);
+//     printf("There are %d components \n", c);
+//     printComponents(components, v);
 
-    free(edges);
-    free(components);
+//     free(edges);
+//     free(components);
  
-    return 0;
-}
+//     return 0;
+// }
