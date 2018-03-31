@@ -16,9 +16,6 @@ int find(int no)
     {
         comparisions++;
 
-        /* To understand interpolation formula visit:
-        https://study.com/academy/lesson/interpolation-in-statistics-definition-formula-example.html 
-        */
         mid = (high + low) / 2;
 
         if (list[mid] == no)
