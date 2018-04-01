@@ -2,6 +2,7 @@
 
 #define MAX 8
 
+//the list should be in sorted form otherwise result will be wrong
 int list[MAX] = {1,5,10,11,32,55,68,85};
 
 int find(int no)

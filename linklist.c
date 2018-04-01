@@ -127,7 +127,8 @@ void reverse(){
         current = next;
     }
 
-    tail = previuos->next;
+    tail = head;
+    tail->next = NULL;
     head = previous;
 }
 
