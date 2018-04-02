@@ -1,126 +1,217 @@
-/* 
-* Fibbonaci Concept & Source: https://www.tutorialspoint.com/data_structures_algorithms/fibonacci_series.htm
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #define MAX 4
 
-int size = 0, current = 0, array[MAX];
-
-void value(int no)
+struct Node
 {
-    if (size < MAX)
+    int key, data;
+    struct Node *previous, *next;
+};
+
+struct Node *head = NULL, *tail = NULL, *current, *next, *previous, *temp;
+
+void insert(int key, int data)
+{
+    struct Node *node = (struct Node *)malloc(sizeof(struct Node));
+    node->key = key;
+    node->data = data;
+
+    if (head == NULL)
     {
-        array[size] = no;
-        size++;
-    }
-    else
-        return;
-}
-
-int last()
-{
-    current = size - 1;
-}
-
-void insert(int position, int no)
-{
-    if (position > size)
-        return;
-
-    if (position == size)
-    {
-        last();
-        array[current] = no;
+        node->next = node;
+        node->previous = node;
+        head = node;
+        tail = node;
     }
     else
     {
-        int temp = size - 1;
-
-        while (position <= temp)
-        {
-            array[temp + 1] = array[temp];
-            temp--;
-        }
-
-        array[temp] = no;
+        node->previous = tail;
+        node->next = head;
+        tail->next = node;
+        tail = node;
+        head->previous = tail;
     }
-    size++;
 }
 
-void find(int no)
+void reverse()
 {
-    for (int i = 0; i < size; i++)
+    next = NULL;
+    previous = tail;
+    current = head;
+
+    if (head != NULL)
     {
-        if (array[i] == no)
+        next = current->next;
+        current->next = previous;
+        current->previous = next;
+        previous = current;
+        tail = current;
+        current = next;
+
+        while (current != tail)
         {
-            current = i;
-            return;
+            next = current->next;
+            current->next = previous;
+            current->previous = next;
+            previous = current;
+            current = next;
         }
+        head = previous;
     }
 }
 
-void delete (int no)
+struct Node *find(int key)
 {
-    if (size == 0)
-        return;
+    current = head;
+
+    if (head == NULL)
+        return NULL;
     else
     {
-        find(no);
-        while (current < size)
+        if (tail->key == key)
         {
-            array[current] = array[current + 1];
-            current++;
+            return tail;
         }
-        size--;
+        else
+        {
+            while (current != tail)
+            {
+                if (current->key == key)
+                {
+                    return current;
+                }
+                current = current->next;
+            }
+        }
     }
 }
 
-void display(){
+struct Node *delete(int key)
+{
 
-    for(int i = 0; i < size; i++)
-        printf("Value %d \n", array[i]);
+    if (head == NULL)
+        return NULL;
+    else
+    {
+        current = head;
+
+        if (head->key == key)
+        {
+            temp = head;
+            if (head == tail)
+            {
+                head = NULL;
+                tail = NULL;
+            }
+            else
+            {
+                head = current->next;
+                head->previous = tail;
+                tail->next = head;
+            }
+            return temp;
+        }
+        else if (tail->key == key)
+        {
+            temp = tail;
+            tail = tail->previous;
+            tail->next = head;
+            head->previous = tail;
+
+            return temp;
+        }
+        else
+        {
+            current = current->next;
+
+            while (current != tail)
+            {
+                if (current->key == key)
+                {
+                    previous = current->previous;
+                    next = current->next;
+                    previous->next = next;
+                    next->previous = previous;
+                    return current;
+                }
+                current = current->next;
+            }
+        }
+        return NULL;
+    }
+}
+
+void printList()
+{
+    current = head;
+
+    if (current == NULL)
+        printf("LINKLISt iS EMPTY \n");
+    else
+    {
+        printf("Key:%d, Data:%d, Next:%p, Previous:%p \n", current->key, current->data, current->next, current->previous);
+        current = current->next;
+        while (current != head)
+        {
+            printf("Key:%d, Data:%d, Next:%p, Previous:%p \n", current->key, current->data, current->next, current->previous);
+            current = current->next;
+        }
+    }
 }
 
 int main()
 {
-    int no;
-    printf("Insert data in an array: \n");
+    insert(3, 3);
+    insert(2, 2);
+    insert(1, 1);
 
+    printList();
+
+    reverse();
+    printf("\n\n REVERSED LINKLISt \n \n");
+    printList();
+
+    struct Node *temp1 = delete(3);
+    printf("DELETE = data: %d, key: %d, next: %p \n", temp1->data, temp1->key, temp1->next);
+
+    printList();
+
+    printf("TAILS = %d , %d \n", tail->key, tail->data);
+    struct Node *temp2 = delete(4);
+    if (temp2 != NULL)
+        printf("DELETE = data: %d, key: %d, next: %p \n", temp2->data, temp2->key, temp2->next);
+
+    printList();
+
+    printf("TAILS = %d , %d \n", tail->key, tail->data);
+    printf("HEAD = %d , %d \n", head->key, head->data);
     
-    for(int i = 0; i < 1; i++)
-    {
-        printf("Enter %d value \n", i);
-        value(i);
-    }
+    temp2 = delete (1);
+    if (temp2 != NULL)
+        printf("DELETE = data: %d, key: %d, next: %p \n", temp2->data, temp2->key, temp2->next);
 
-    // printf("\nList \n\n");
-    // display();
+    printList();
+    printf("TAILS = %d , %d \n", tail->key, tail->data);
+    printf("HEAD = %d , %d \n", head->key, head->data);
 
-    // insert(2,3);
+    temp2 = delete (2);
+    if (temp2 != NULL)
+        printf("DELETE = data: %d, key: %d, next: %p \n", temp2->data, temp2->key, temp2->next);
 
-    // printf("\nList \n\n");
-    // display();
+    printList();
+    if (tail != NULL)
+        printf("TAILS = %d , %d \n", tail->key, tail->data);
+    if (head != NULL)
+        printf("HEADS = %d , %d \n", head->key, head->data);
+             
+    temp2 = delete (2);
+    if (temp2 != NULL)
+        printf("DELETE = data: %d, key: %d, next: %p \n", temp2->data, temp2->key, temp2->next);
 
-    // delete(2);
-
-    // printf("\nList \n\n");
-    // display();
-    
-    delete(0);
-
-    printf("\nList \n\n");
-    display();
-    
-    //     delete(1);
-
-    // printf("\nList \n\n");
-    // display();
-    
-    //     delete(3);
-
-    // printf("\nList \n\n");
-    // display();   
+    printList();
+    if (tail != NULL)
+        printf("TAILS = %d , %d \n", tail->key, tail->data);
+    if (head != NULL)
+        printf("HEADS = %d , %d \n", head->key, head->data);
     return 0;
 }
