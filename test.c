@@ -1,217 +1,87 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX 4
+#define MAX 10
 
-struct Node
+int rear = -1, front = 0, size = 0, queue[MAX];
+
+int top()
 {
-    int key, data;
-    struct Node *previous, *next;
-};
-
-struct Node *head = NULL, *tail = NULL, *current, *next, *previous, *temp;
-
-void insert(int key, int data)
-{
-    struct Node *node = (struct Node *)malloc(sizeof(struct Node));
-    node->key = key;
-    node->data = data;
-
-    if (head == NULL)
-    {
-        node->next = node;
-        node->previous = node;
-        head = node;
-        tail = node;
-    }
-    else
-    {
-        node->previous = tail;
-        node->next = head;
-        tail->next = node;
-        tail = node;
-        head->previous = tail;
-    }
+    return queue[front];
 }
 
-void reverse()
+int isFull()
 {
-    next = NULL;
-    previous = tail;
-    current = head;
-
-    if (head != NULL)
-    {
-        next = current->next;
-        current->next = previous;
-        current->previous = next;
-        previous = current;
-        tail = current;
-        current = next;
-
-        while (current != tail)
-        {
-            next = current->next;
-            current->next = previous;
-            current->previous = next;
-            previous = current;
-            current = next;
-        }
-        head = previous;
-    }
+    return size == MAX;
 }
 
-struct Node *find(int key)
+void enqueue(int no)
 {
-    current = head;
-
-    if (head == NULL)
-        return NULL;
-    else
+    if(!isFull())
     {
-        if (tail->key == key)
+        queue[++rear] = no;
+        if(rear == MAX-1)
         {
-            return tail;
+            rear = -1;
         }
-        else
-        {
-            while (current != tail)
-            {
-                if (current->key == key)
-                {
-                    return current;
-                }
-                current = current->next;
-            }
-        }
+        size++;
     }
+    else
+        printf("QUEUE is FULL \n");
 }
 
-struct Node *delete(int key)
+int isEmpty()
 {
-
-    if (head == NULL)
-        return NULL;
-    else
-    {
-        current = head;
-
-        if (head->key == key)
-        {
-            temp = head;
-            if (head == tail)
-            {
-                head = NULL;
-                tail = NULL;
-            }
-            else
-            {
-                head = current->next;
-                head->previous = tail;
-                tail->next = head;
-            }
-            return temp;
-        }
-        else if (tail->key == key)
-        {
-            temp = tail;
-            tail = tail->previous;
-            tail->next = head;
-            head->previous = tail;
-
-            return temp;
-        }
-        else
-        {
-            current = current->next;
-
-            while (current != tail)
-            {
-                if (current->key == key)
-                {
-                    previous = current->previous;
-                    next = current->next;
-                    previous->next = next;
-                    next->previous = previous;
-                    return current;
-                }
-                current = current->next;
-            }
-        }
-        return NULL;
-    }
+    if(front == MAX)
+        front = 0;
+    return size == 0;
 }
 
-void printList()
+int dequeue()
 {
-    current = head;
-
-    if (current == NULL)
-        printf("LINKLISt iS EMPTY \n");
-    else
+    if(!isEmpty())
     {
-        printf("Key:%d, Data:%d, Next:%p, Previous:%p \n", current->key, current->data, current->next, current->previous);
-        current = current->next;
-        while (current != head)
-        {
-            printf("Key:%d, Data:%d, Next:%p, Previous:%p \n", current->key, current->data, current->next, current->previous);
-            current = current->next;
-        }
+        size--;
+        return queue[front++];
     }
+    else
+        printf("QUEUE is empty");
 }
 
 int main()
 {
-    insert(3, 3);
-    insert(2, 2);
-    insert(1, 1);
+    enqueue(1);
+    enqueue(2);
+    enqueue(3);
+    enqueue(4);
+    enqueue(5);
+    enqueue(15);
 
-    printList();
 
-    reverse();
-    printf("\n\n REVERSED LINKLISt \n \n");
-    printList();
+printf("\n");
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    // printf("DEQUED: %d: \n", dequeue());
 
-    struct Node *temp1 = delete(3);
-    printf("DELETE = data: %d, key: %d, next: %p \n", temp1->data, temp1->key, temp1->next);
-
-    printList();
-
-    printf("TAILS = %d , %d \n", tail->key, tail->data);
-    struct Node *temp2 = delete(4);
-    if (temp2 != NULL)
-        printf("DELETE = data: %d, key: %d, next: %p \n", temp2->data, temp2->key, temp2->next);
-
-    printList();
-
-    printf("TAILS = %d , %d \n", tail->key, tail->data);
-    printf("HEAD = %d , %d \n", head->key, head->data);
+    enqueue(10);
+    enqueue(6);
+    enqueue(7);
+    enqueue(8);
+    enqueue(9);
     
-    temp2 = delete (1);
-    if (temp2 != NULL)
-        printf("DELETE = data: %d, key: %d, next: %p \n", temp2->data, temp2->key, temp2->next);
+printf("\n");
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
 
-    printList();
-    printf("TAILS = %d , %d \n", tail->key, tail->data);
-    printf("HEAD = %d , %d \n", head->key, head->data);
 
-    temp2 = delete (2);
-    if (temp2 != NULL)
-        printf("DELETE = data: %d, key: %d, next: %p \n", temp2->data, temp2->key, temp2->next);
-
-    printList();
-    if (tail != NULL)
-        printf("TAILS = %d , %d \n", tail->key, tail->data);
-    if (head != NULL)
-        printf("HEADS = %d , %d \n", head->key, head->data);
-             
-    temp2 = delete (2);
-    if (temp2 != NULL)
-        printf("DELETE = data: %d, key: %d, next: %p \n", temp2->data, temp2->key, temp2->next);
-
-    printList();
-    if (tail != NULL)
-        printf("TAILS = %d , %d \n", tail->key, tail->data);
-    if (head != NULL)
-        printf("HEADS = %d , %d \n", head->key, head->data);
     return 0;
 }

@@ -1,77 +1,87 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define MAX 10
 
-#define MAX 5
+int rear = -1, front = 0, size = 0, queue[MAX];
 
-int queue[MAX], front = 0, rear = -1, size = -1;
+int top()
+{
+    return queue[front];
+}
 
 int isFull()
 {
-    return size == MAX - 1;
+    return size == MAX;
+}
+
+void enqueue(int no)
+{
+    if(!isFull())
+    {
+        queue[++rear] = no;
+        if(rear == MAX-1)
+        {
+            rear = -1;
+        }
+        size++;
+    }
+    else
+        printf("QUEUE is FULL \n");
 }
 
 int isEmpty()
 {
     if(front == MAX)
-        front =0;
-    return size == -1;
-}
-
-void enqueue(int no)
-{
-    if (!isFull())
-    {
-        if (rear == MAX - 1)
-            rear = -1;
-
-        queue[++rear] = no;
-        size++;
-    }
-    else
-        printf("QUEUE IS FULL \n");
+        front = 0;
+    return size == 0;
 }
 
 int dequeue()
 {
-    if (!isEmpty())
+    if(!isEmpty())
     {
-        if (front == MAX)
-        {
-            front = 0;
-            return queue[size--];
-        }
-
         size--;
         return queue[front++];
     }
     else
-        printf("QUEUE IS EMPTY \n");
+        printf("QUEUE is empty");
 }
-void main()
+
+int main()
 {
     enqueue(1);
     enqueue(2);
     enqueue(3);
     enqueue(4);
     enqueue(5);
+    enqueue(15);
 
+
+printf("\n");
     printf("DEQUED: %d: \n", dequeue());
     printf("DEQUED: %d: \n", dequeue());
     printf("DEQUED: %d: \n", dequeue());
     printf("DEQUED: %d: \n", dequeue());
     printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
+    // printf("DEQUED: %d: \n", dequeue());
 
     enqueue(10);
     enqueue(6);
     enqueue(7);
     enqueue(8);
     enqueue(9);
+    
+printf("\n");
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
+    printf("DEQUED: %d: \n", dequeue());
 
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
+
+    return 0;
 }
