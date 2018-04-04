@@ -1,87 +1,65 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX 10
 
-int rear = -1, front = 0, size = 0, queue[MAX];
+#define MAX 5
 
-int top()
-{
-    return queue[front];
-}
+    int array[MAX] = {5,3,1,2,4};
+    int array2[MAX];
 
-int isFull()
-{
-    return size == MAX;
-}
-
-void enqueue(int no)
-{
-    if(!isFull())
+    void merging(int low, int mid, int high)
     {
-        queue[++rear] = no;
-        if(rear == MAX-1)
+        int l1, l2, i;
+
+        for(l1 = low, l2 = mid+1, i = low; l1 <= mid && l2 <= high; i++)
         {
-            rear = -1;
+            if(array[l1]<=array[l2])
+                array2[i] = array[l1++];
+            else
+                array2[i] = array[l2++];
         }
-        size++;
+        
+        while(l1 <= mid)
+        {
+            array2[i++] = array[l1++]; 
+        }
+
+        while(l2 <= high)
+        {
+            array2[i++] = array[l2++]; 
+        }
+
+        for(int j = low; j<=high;j++)
+            array[j] = array2[j];    
     }
-    else
-        printf("QUEUE is FULL \n");
-}
 
-int isEmpty()
-{
-    if(front == MAX)
-        front = 0;
-    return size == 0;
-}
-
-int dequeue()
-{
-    if(!isEmpty())
+    void sort(int low, int high)
     {
-        size--;
-        return queue[front++];
+        int mid;
+
+        if(low<high)
+        {
+            mid = (low+high)/2;
+            sort(low,mid);
+            sort(mid+1, high);
+            merging(low,mid,high);
+        }
+        else 
+            return;
     }
-    else
-        printf("QUEUE is empty");
-}
 
 int main()
 {
-    enqueue(1);
-    enqueue(2);
-    enqueue(3);
-    enqueue(4);
-    enqueue(5);
-    enqueue(15);
+    printf("Before sorted \n");
+    for(int i=0; i < 5; i++)
+    {
+        printf("%d ",array[i]);
+    }
 
+    sort(0, MAX-1);
 
-printf("\n");
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    // printf("DEQUED: %d: \n", dequeue());
-
-    enqueue(10);
-    enqueue(6);
-    enqueue(7);
-    enqueue(8);
-    enqueue(9);
-    
-printf("\n");
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-    printf("DEQUED: %d: \n", dequeue());
-
-
-    return 0;
+    printf(" \n After sorted \n");
+    for(int j=0; j < 5; j++)
+    {
+        printf("%d",array[j]);
+    }
 }
