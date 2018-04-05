@@ -2,8 +2,8 @@
 
 #define SIZE 10
 
-int a[11] = {10,9,8,7,6,5,4,3,2,1,0};
-int b[11];
+int a[SIZE] = {10,9,8,7,6,5,4,3,2,1};
+int b[SIZE];
 
 void merging(int low, int mid, int high)
 {
@@ -48,7 +48,7 @@ void sort(int low , int high){
 
 void display(){
     printf("\n\n ====================== \n\n");
-    for(int i = 0; i <= SIZE; i++)
+    for(int i = 0; i < SIZE; i++)
     {
         printf("list[%d] = %d \n",i, a[i]);
     }
@@ -59,7 +59,7 @@ int main(){
     printf("LIST BEFORE SORTING \n \n");
     display();
     
-    sort(0, SIZE);
+    sort(0, SIZE-1);
 
     printf("LIST AFTER SORTING \n \n");
     display();

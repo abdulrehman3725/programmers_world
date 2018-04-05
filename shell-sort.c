@@ -24,7 +24,8 @@ void sort(){
                 inner -= interval;
             }
 
-            a[inner] = valueToInsert;
+            if(inner!=outer)
+                a[inner] = valueToInsert;
         }
 
         interval = (interval-1)/3;
@@ -38,7 +39,7 @@ int main() {
    for(i = 0; i < MAX; i++)
       printf("%d ", a[i]);
 
-   sort(0, MAX);
+   sort();
 
    printf("\nList after sorting\n");
    
