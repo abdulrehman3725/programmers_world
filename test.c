@@ -1,65 +1,150 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#define SIZE 5
 
-#define MAX 5
+struct Vertice
+{
+    char label;
+    bool visited;
+};
 
-    int array[MAX] = {5,3,1,2,4};
-    int array2[MAX];
+int adjVertices[SIZE][SIZE], verticeQueue[SIZE], front = 0, rear=-1, queueCount=0, count = 0;
+struct Vertice *verticeList[SIZE];
 
-    void merging(int low, int mid, int high)
+bool isFull()
+{
+    return count == SIZE;
+}
+
+bool isEmpty()
+{
+    return count == 0;
+}
+
+bool isEmptyQueue()
+{
+    if(front == SIZE)
     {
-        int l1, l2, i;
+        front = 0;        
+    }
+    return queueCount == 0;
+}
 
-        for(l1 = low, l2 = mid+1, i = low; l1 <= mid && l2 <= high; i++)
-        {
-            if(array[l1]<=array[l2])
-                array2[i] = array[l1++];
-            else
-                array2[i] = array[l2++];
-        }
+bool isFullQueue()
+{
+    return queueCount == SIZE;
+}
+
+void enqueue(int index)
+{
+    if(!isFullQueue())
+    {
+        verticeQueue[++rear] = index;
         
-        while(l1 <= mid)
+        if(rear == SIZE-1)
         {
-            array2[i++] = array[l1++]; 
+            rear = -1;
         }
 
-        while(l2 <= high)
-        {
-            array2[i++] = array[l2++]; 
-        }
-
-        for(int j = low; j<=high;j++)
-            array[j] = array2[j];    
+        queueCount++;
     }
+    else
+        printf("QUEUE is full \n");
+}
 
-    void sort(int low, int high)
+int dequeue()
+{
+    if(!isEmpty())
     {
-        int mid;
-
-        if(low<high)
-        {
-            mid = (low+high)/2;
-            sort(low,mid);
-            sort(mid+1, high);
-            merging(low,mid,high);
-        }
-        else 
-            return;
+        verticeQueue[front++];
+        queueCount--;
     }
+    else    
+        printf("QUeue is Empty \n");
+
+}
+
+void addVertice(char label)
+{
+    if (!isFull())
+    {
+        struct Vertice *vertice = (struct Vertice *)malloc(sizeof(struct Vertice));
+
+        vertice->label = label;
+        vertice->visited = false;
+        verticeList[count++] = vertice;
+    }
+    else
+        printf("ARRAY IS FULL \n");
+}
+
+void addEdge(int vertice1, int vertice2)
+{
+    adjVertices[vertice1][vertice2] = 1;
+}
+
+int unvisitedVertex(int vertexIndex)
+{
+    for (int j = 0; j < SIZE; j++)
+    {
+        if (adjVertices[vertexIndex][j] == 1 && verticeList[j]->visited == false)
+        {
+            return j;
+        }
+    }
+
+    return -1;
+}
+
+void display(struct Vertice *vertice)
+{
+    printf("Label: %c \n", vertice->label);
+}
+
+void dfs()
+{
+    int unvisited,top, i = 0;
+    verticeList[0]->visited = true;
+    display(verticeList[0]);
+    enqueue(0);
+    
+    while (!isEmptyQueue())
+    {
+        top = dequeue();
+
+        while((unvisited = unvisitedVertex(top)) != -1)
+        {            
+            verticeList[unvisited]->visited = true;
+            display(verticeList[unvisited]);
+            enqueue(unvisited);
+        }
+    }
+}
 
 int main()
 {
-    printf("Before sorted \n");
-    for(int i=0; i < 5; i++)
+    for (int i = 0; i < SIZE; i++)
     {
-        printf("%d ",array[i]);
+        for (int j = 0; j < SIZE; j++)
+        {
+            adjVertices[i][j] = 0;
+        }
     }
 
-    sort(0, MAX-1);
+    addVertice('S');
+    addVertice('A');
+    addVertice('B');
+    addVertice('C');
+    addVertice('D');
 
-    printf(" \n After sorted \n");
-    for(int j=0; j < 5; j++)
-    {
-        printf("%d",array[j]);
-    }
+    addEdge(0, 1); // S - A
+    addEdge(0, 2); // S - B
+    addEdge(0, 3); // S - C
+    addEdge(1, 4); // A - D
+    addEdge(2, 4); // B - D
+    addEdge(3, 4); // C - D
+
+    dfs();
+    return 0;
 }
