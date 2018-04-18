@@ -67,13 +67,13 @@ struct Node* balance(struct Node* p)
     if(height(p->left) - height(p->right) == 2)
     {
         if(height(p->left->right) > height(p->left->left))
-           p->right =  rotate_left(p);
+           p->right =  rotate_left(p->left);
         return rotate_right(p);
     }
     else if(height(p->right) - height(p->left) == 2)
     {
         if(height(p->right->left) > height(p->right->right))
-            p->left =rotate_right(p);
+            p->left =rotate_right(p->right);
         return rotate_left(p);
     }
     
@@ -128,10 +128,16 @@ struct Node* remove_min(struct Node* p)
 
 struct Node* remove_item(struct Node* p, int key)
 {
+    if(!p)
+    {
+        printf("NOTHING TO DELETE \n");
+        return NULL;
+    }
     if(p->key < key)
-        p->left = remove_item(p->left, key);
-    else if(p->key > key)
         p->right = remove_item(p->right, key);
+    else if(p->key > key)
+        p->left = remove_item(p->left, key);
+
     else
     {
         struct Node* l = p->left;
@@ -186,7 +192,7 @@ int main(){
         }
         else if ( c == 'D' )
         {
-            printf("Search VALUES \n");
+            printf("Delete VALUES \n");
             scanf("%d", &k); 
             root = remove_item(root, k);
         }
