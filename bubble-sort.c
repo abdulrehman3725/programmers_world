@@ -21,6 +21,7 @@ void sort()
 
                 swapped = false;
             }
+            printf("%d times \n ", i);
         }
 
         if(swapped == true)

@@ -106,8 +106,8 @@ int main()
     graph->edge[1].dest = 2;
 
     // add edge 0-2
-    graph->edge[2].src = 0;
-    graph->edge[2].dest = 2;
+    graph->edge[2].src = 2;
+    graph->edge[2].dest = 0;
 
     if (isCycle(graph))
         printf( "graph contains cycle" );

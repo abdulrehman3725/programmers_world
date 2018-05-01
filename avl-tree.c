@@ -67,13 +67,13 @@ struct Node* balance(struct Node* p)
     if(height(p->left) - height(p->right) == 2)
     {
         if(height(p->left->right) > height(p->left->left))
-           p->right =  rotate_left(p->left);
+           p->left =  rotate_left(p->left);
         return rotate_right(p);
     }
     else if(height(p->right) - height(p->left) == 2)
     {
         if(height(p->right->left) > height(p->right->right))
-            p->left =rotate_right(p->right);
+            p->right =rotate_right(p->right);
         return rotate_left(p);
     }
     

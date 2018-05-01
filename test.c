@@ -1,150 +1,218 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#define SIZE 5
+#include<stdio.h>
+#include<stdlib.h>
 
-struct Vertice
-{
-    char label;
-    bool visited;
+struct Node{
+    int key, data, height;
+    struct Node *left, *right;
 };
 
-int adjVertices[SIZE][SIZE], verticeQueue[SIZE], front = 0, rear=-1, queueCount=0, count = 0;
-struct Vertice *verticeList[SIZE];
-
-bool isFull()
+struct Node* newNode(int key, int data)
 {
-    return count == SIZE;
+    struct Node *node = (struct Node*)malloc(sizeof(struct Node));
+
+    node->key = key;
+    node->data = data;
+    node->height = 1;
+    node->left = NULL;
+    node->right = NULL;
+
+    return node;
 }
 
-bool isEmpty()
+int height(struct Node* p)
 {
-    return count == 0;
+    return p ? p -> height : 0;
 }
 
-bool isEmptyQueue()
+int max(int a, int b)
 {
-    if(front == SIZE)
+    return a > b ? a : b;
+}
+
+void recalc(struct Node* p)
+{
+    p->height = 1 + max(height(p->left),height(p->right)); 
+}
+
+struct Node* rotate_right(struct Node* p)
+{
+    struct Node* q = p->left;
+
+    p->left = q->right;
+    q->right = p;
+
+    recalc(p);
+    recalc(q);
+
+    return q;
+}
+
+struct Node* rotate_left(struct Node* p)
+{
+    struct Node* q = p->right;
+
+    p->right = q->left;
+    q->left = p;
+
+    recalc(p);
+    recalc(q);
+
+    return q;
+}
+
+struct Node* balance(struct Node* p)
+{
+    recalc(p);
+
+    if((height(p->left) - height(p->right)) == 2)
     {
-        front = 0;        
+        if(height(p->left->right) > height(p->left->left))
+           p->left =  rotate_left(p->left);
+        return rotate_right(p);
     }
-    return queueCount == 0;
-}
-
-bool isFullQueue()
-{
-    return queueCount == SIZE;
-}
-
-void enqueue(int index)
-{
-    if(!isFullQueue())
+    else if((height(p->right) - height(p->left)) == 2)
     {
-        verticeQueue[++rear] = index;
-        
-        if(rear == SIZE-1)
-        {
-            rear = -1;
-        }
-
-        queueCount++;
+        if(height(p->right->left) > height(p->right->right))
+            p->right =rotate_right(p->right);
+        return rotate_left(p);
     }
-    else
-        printf("QUEUE is full \n");
-}
-
-int dequeue()
-{
-    if(!isEmpty())
-    {
-        verticeQueue[front++];
-        queueCount--;
-    }
-    else    
-        printf("QUeue is Empty \n");
-
-}
-
-void addVertice(char label)
-{
-    if (!isFull())
-    {
-        struct Vertice *vertice = (struct Vertice *)malloc(sizeof(struct Vertice));
-
-        vertice->label = label;
-        vertice->visited = false;
-        verticeList[count++] = vertice;
-    }
-    else
-        printf("ARRAY IS FULL \n");
-}
-
-void addEdge(int vertice1, int vertice2)
-{
-    adjVertices[vertice1][vertice2] = 1;
-}
-
-int unvisitedVertex(int vertexIndex)
-{
-    for (int j = 0; j < SIZE; j++)
-    {
-        if (adjVertices[vertexIndex][j] == 1 && verticeList[j]->visited == false)
-        {
-            return j;
-        }
-    }
-
-    return -1;
-}
-
-void display(struct Vertice *vertice)
-{
-    printf("Label: %c \n", vertice->label);
-}
-
-void dfs()
-{
-    int unvisited,top, i = 0;
-    verticeList[0]->visited = true;
-    display(verticeList[0]);
-    enqueue(0);
     
-    while (!isEmptyQueue())
-    {
-        top = dequeue();
-
-        while((unvisited = unvisitedVertex(top)) != -1)
-        {            
-            verticeList[unvisited]->visited = true;
-            display(verticeList[unvisited]);
-            enqueue(unvisited);
-        }
-    }
+    return p;
 }
 
-int main()
+struct Node* insert(struct Node* p, int key, int data)
 {
-    for (int i = 0; i < SIZE; i++)
+    if(!p)
+        return newNode(key,data);
+
+    if(p->key > key)
+        p->left = insert(p->left, key, data);
+    else if (p->key < key)
+        p->right =  insert(p->right, key, data);
+    else 
+        p->data = data;
+
+    return balance(p);
+}
+
+struct Node* search(struct Node* p, int key)
+{    
+    if(!p)
+        return NULL;
+
+    if(p->key > key)
+        return search(p->left, key);
+    else if(p->key < key)
+        return search(p->right, key);
+    else
+        return p;
+}
+
+struct Node* find_min(struct Node* p)
+{
+    if(p->left != NULL)
+        find_min(p->left);
+    else
+        return p;
+}
+
+struct Node* remove_min(struct Node* p)
+{
+    if(p->left == NULL)
+        return p->right;
+
+    p->left = remove_min(p->left);
+
+    return balance(p); 
+}
+
+struct Node* remove_item(struct Node* p, int key)
+{
+    if(!p)
     {
-        for (int j = 0; j < SIZE; j++)
+        printf("NOTHING TO DELETE \n");
+        return NULL;
+    }
+    if(p->key < key)
+        p->right = remove_item(p->right, key);
+    else if(p->key > key)
+        p->left = remove_item(p->left, key);
+
+    else
+    {
+        struct Node* l = p->left;
+        struct Node* r = p->right;
+
+        free(p);
+
+        if( r == NULL)
+            return l;
+
+        struct Node* m = find_min(r);
+        m->right = remove_min(r);
+        m->left = l;
+
+        return balance(m);
+    }
+    
+    return balance(p);
+}
+
+void free_tree(struct Node* p)
+{
+    if ( !p )
+        return;
+
+    free_tree(p -> left);
+    free_tree(p -> right);
+    free(p);
+}
+
+void preorder(struct Node *root)
+{
+    if(root != NULL)
+    {
+        printf("%d ",root->data);
+        preorder(root->left);
+        preorder(root->right);
+    }
+}
+int main(){
+    struct Node* root = NULL;
+
+    char c;
+    int k, d;
+    printf("Enter 'A' to Add Values \n 'S' to SEarch Value \n OR \n 'D' to delte values \n\n 'P' to printt \n\n 'F' to exit \n");
+    while ( scanf("%c", &c) && c != 'F' )
+    {
+        if ( c == 'A' )
         {
-            adjVertices[i][j] = 0;
+            printf("Insert VALUES \n");
+            scanf("%d %d", &k, &d);
+            root = insert(root, k, d);
         }
+        else if ( c == 'S' )
+        {
+            printf("Search VALUES \n");
+            scanf("%d", &k);
+            struct Node* n = search(root, k);
+            if ( n ) 
+                printf("%d %d\n", n -> key, n -> data);
+        }
+        else if ( c == 'D' )
+        {
+            printf("Delete VALUES \n");
+            scanf("%d", &k); 
+            root = remove_item(root, k);
+        }
+        else if ( c == 'p')
+        {
+            preorder(root);
+        }
+    printf("Enter 'A' to Add Values \n 'S' to SEarch Value \n OR \n 'D' to delte values \n\n 'P' to printt \n\n 'F' to exit \n");
     }
 
-    addVertice('S');
-    addVertice('A');
-    addVertice('B');
-    addVertice('C');
-    addVertice('D');
+    free_tree(root);
 
-    addEdge(0, 1); // S - A
-    addEdge(0, 2); // S - B
-    addEdge(0, 3); // S - C
-    addEdge(1, 4); // A - D
-    addEdge(2, 4); // B - D
-    addEdge(3, 4); // C - D
-
-    dfs();
     return 0;
 }
