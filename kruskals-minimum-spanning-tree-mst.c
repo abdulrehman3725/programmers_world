@@ -146,80 +146,80 @@ void Sort(struct Edge edge[],int e)
 
 int main()
 {
-    // int V = 9, E = 14;
-    // struct Graph* graph = createGraph(V, E);
+      // int V = 9, E = 14;
+      // struct Graph* graph = createGraph(V, E);
 
-    // // add edge 0-1
-    // graph->edge[0].src = 0;
-    // graph->edge[0].dest = 1;
-    // graph->edge[0].weight = 4 ;
+      // // add edge 0-1
+      // graph->edge[0].src = 0;
+      // graph->edge[0].dest = 1;
+      // graph->edge[0].weight = 4 ;
 
-    // // add edge 1-2
-    // graph->edge[1].src = 1;
-    // graph->edge[1].dest = 2;
-    // graph->edge[1].weight = 8 ;
+      // // add edge 1-2
+      // graph->edge[1].src = 1;
+      // graph->edge[1].dest = 2;
+      // graph->edge[1].weight = 8 ;
 
-    // // add edge 2-3
-    // graph->edge[2].src = 2;
-    // graph->edge[2].dest = 3;
-    // graph->edge[2].weight = 7 ;
+      // // add edge 2-3
+      // graph->edge[2].src = 2;
+      // graph->edge[2].dest = 3;
+      // graph->edge[2].weight = 7 ;
 
-    // // add edge 3-4
-    // graph->edge[3].src = 3;
-    // graph->edge[3].dest = 4;
-    // graph->edge[3].weight = 9 ;
+      // // add edge 3-4
+      // graph->edge[3].src = 3;
+      // graph->edge[3].dest = 4;
+      // graph->edge[3].weight = 9 ;
 
-    // // add edge 4-5
-    // graph->edge[4].src = 5;
-    // graph->edge[4].dest = 4;
-    // graph->edge[4].weight = 10;
+      // // add edge 4-5
+      // graph->edge[4].src = 5;
+      // graph->edge[4].dest = 4;
+      // graph->edge[4].weight = 10;
 
-    // // add edge 5-2
-    // graph->edge[5].src = 2;
-    // graph->edge[5].dest = 5;
-    // graph->edge[5].weight = 4;
+      // // add edge 5-2
+      // graph->edge[5].src = 2;
+      // graph->edge[5].dest = 5;
+      // graph->edge[5].weight = 4;
 
-    // // add edge 5-3
-    // graph->edge[6].src = 3;
-    // graph->edge[6].dest = 5;
-    // graph->edge[6].weight = 14 ;
+      // // add edge 5-3
+      // graph->edge[6].src = 3;
+      // graph->edge[6].dest = 5;
+      // graph->edge[6].weight = 14 ;
 
-    // // add edge 5-6
-    // graph->edge[7].src = 6;
-    // graph->edge[7].dest = 5;
-    // graph->edge[7].weight = 2;
+      // // add edge 5-6
+      // graph->edge[7].src = 6;
+      // graph->edge[7].dest = 5;
+      // graph->edge[7].weight = 2;
 
-    // // add edge 6-8
-    // graph->edge[8].src = 8;
-    // graph->edge[8].dest = 6;
-    // graph->edge[8].weight = 6;
+      // // add edge 6-8
+      // graph->edge[8].src = 8;
+      // graph->edge[8].dest = 6;
+      // graph->edge[8].weight = 6;
 
-    // // add edge 8-2
-    // graph->edge[9].src = 8;
-    // graph->edge[9].dest = 2;
-    // graph->edge[9].weight = 2;
+      // // add edge 8-2
+      // graph->edge[9].src = 8;
+      // graph->edge[9].dest = 2;
+      // graph->edge[9].weight = 2;
 
-    // // add edge 6-7
-    // graph->edge[10].src = 7;
-    // graph->edge[10].dest = 6;
-    // graph->edge[10].weight = 1;
+      // // add edge 6-7
+      // graph->edge[10].src = 7;
+      // graph->edge[10].dest = 6;
+      // graph->edge[10].weight = 1;
 
-    // // add edge 7-8
-    // graph->edge[11].src = 7;
-    // graph->edge[11].dest = 8;
-    // graph->edge[11].weight = 7;
+      // // add edge 7-8
+      // graph->edge[11].src = 7;
+      // graph->edge[11].dest = 8;
+      // graph->edge[11].weight = 7;
 
-    // // add edge 7-1
-    // graph->edge[12].src = 1;
-    // graph->edge[12].dest = 7;
-    // graph->edge[12].weight = 11;
+      // // add edge 7-1
+      // graph->edge[12].src = 1;
+      // graph->edge[12].dest = 7;
+      // graph->edge[12].weight = 11;
 
-    // // add edge 7-0
-    // graph->edge[13].src = 0;
-    // graph->edge[13].dest = 7;
-    // graph->edge[13].weight = 8;
+      // // add edge 7-0
+      // graph->edge[13].src = 0;
+      // graph->edge[13].dest = 7;
+      // graph->edge[13].weight = 8;
 
-    /* Let us create following weighted graph
+      /* Let us create following weighted graph
              10
         0--------1
         |  \     |
@@ -228,62 +228,115 @@ int main()
         2--------3
             4       */
 
-    int V = 4, E = 5;
-    struct Graph* graph = createGraph(V, E);
+      int V = 4, E = 7;
+      int *skipList = calloc(E, sizeof(int));
 
-    // add edge 0-1
-    graph->edge[0].src = 0;
-    graph->edge[0].dest = 1;
-    graph->edge[0].weight = 10;
- 
-    // add edge 0-2
-    graph->edge[1].src = 0;
-    graph->edge[1].dest = 2;
-    graph->edge[1].weight = 6;
- 
-    // add edge 0-3
-    graph->edge[2].src = 0;
-    graph->edge[2].dest = 3;
-    graph->edge[2].weight = 5;
- 
-    // add edge 1-3
-    graph->edge[3].src = 1;
-    graph->edge[3].dest = 3;
-    graph->edge[3].weight = 15;
- 
-    // add edge 2-3
-    graph->edge[4].src = 2;
-    graph->edge[4].dest = 3;
-    graph->edge[4].weight = 4;
+      struct Graph *graph = createGraph(V, E);
 
-    //sort the edges by weight in ascending order
-    Sort(graph->edge, graph->E);
+      // add edge 0-1
+      graph->edge[0].src = 0;
+      graph->edge[0].dest = 1;
+      graph->edge[0].weight = 10;
 
-    for(int i = 0; i < graph->E; i++)
-    {
-        printf("weight = %d, src = %d, dest = %d  \n", graph->edge[i].weight, graph->edge[i].src, graph->edge[i].dest);
-    }
+      // add edge 0-2
+      graph->edge[1].src = 0;
+      graph->edge[1].dest = 2;
+      graph->edge[1].weight = 6;
 
-    struct Edge *mstTree = malloc( (graph->V - 1) * sizeof( struct Edge ) );
+      // add edge 0-3
+      graph->edge[2].src = 0;
+      graph->edge[2].dest = 3;
+      graph->edge[2].weight = 5;
 
-    int k = 0;
+      // add edge 1-3
+      graph->edge[3].src = 1;
+      graph->edge[3].dest = 3;
+      graph->edge[3].weight = 15;
 
-    //include those edges in Mst Tree which do not form cycle
-    for(int m = 0; m < graph->E; m++)
-    {
-        mstTree[k++] = graph->edge[m];
+      // add edge 2-3
+      graph->edge[4].src = 2;
+      graph->edge[4].dest = 3;
+      graph->edge[4].weight = 4;
 
-        if(isCycle(graph->V, k, mstTree))
-        {printf("Is Cycle \n");k--;}  
-        else
-        {printf("Is not Cycle \n");}  
-    }
+      // add edge 3-2
+      graph->edge[5].src = 3;
+      graph->edge[5].dest = 2;
+      graph->edge[5].weight = 3;
 
-    // print the edges included in Minimum Spanning Tree.
-    for( int i = 0; i < k; i++)
-    {
-        printf("(src = %d, dest = %d, weight = %d), ", mstTree[i].src, mstTree[i].dest, mstTree[i].weight);
-    }
+      // add edge 1-1
+      graph->edge[6].src = 1;
+      graph->edge[6].dest = 1;
+      graph->edge[6].weight = 15;
 
-    return 0;
+      //to remove all loops and parallel edges
+      for (int i = 0; i < E; i++)
+      {
+            //skip those indexes which are creating loops
+            if (graph->edge[i].src == graph->edge[i].dest)
+            {
+                  skipList[i] = -1;
+            }
+            else
+            {
+                  for (int j = 0; j < E; j++)
+                  {
+                        //check if any edge is not in skiplist and skip the index which is current index
+                        //being checked
+                        if (skipList[j] != -1 && j != i)
+                        {
+                              printf("I = %d J = %d \n",i,j);
+                              if ((graph->edge[i].src == graph->edge[j].dest) && (graph->edge[i].dest == graph->edge[j].src))
+                              {
+                                    if (graph->edge[i].weight > graph->edge[j].weight)
+                                          skipList[j] = -1;
+                                    else
+                                          skipList[i] = -1;
+
+                                    break;
+                              }
+                        }
+                  }
+            }
+      }
+
+      //sort the edges by weight in ascending order
+      Sort(graph->edge, graph->E);
+
+      for (int i = 0; i < graph->E; i++)
+      {
+            printf("weight = %d, src = %d, dest = %d  \n", graph->edge[i].weight, graph->edge[i].src, graph->edge[i].dest);
+      }
+
+      struct Edge *mstTree = malloc((graph->V - 1) * sizeof(struct Edge));
+
+      int k = 0;
+
+      //include those edges in Mst Tree which do not form cycle
+      for (int m = 0; m < graph->E; m++)
+      {
+            if (skipList[m] == -1)
+                  printf("SKIPPED \n");
+            else
+            {
+                  mstTree[k++] = graph->edge[m];
+
+                  if (isCycle(graph->V, k, mstTree))
+                  {
+                        printf("Is Cycle \n");
+                        k--;
+                  }
+                  else
+                  {
+                        printf("Is not Cycle \n");
+                  }
+            }
+      }
+
+      // print the edges included in Minimum Spanning Tree.
+      for (int i = 0; i < k; i++)
+      {
+            printf("(src = %d, dest = %d, weight = %d), ", mstTree[i].src, mstTree[i].dest, mstTree[i].weight);
+      }
+
+      return 0;
 }
